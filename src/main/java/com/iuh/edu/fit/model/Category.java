@@ -1,9 +1,10 @@
 package com.iuh.edu.fit.model;
 
-import jakarta.persistence.*;
-import lombok.*;
-
 import java.util.List;
+
+import jakarta.persistence.*;
+
+import lombok.*;
 
 @Entity
 @Table(name = "categories")

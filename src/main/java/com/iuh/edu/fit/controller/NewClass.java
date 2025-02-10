@@ -8,6 +8,4 @@ package com.iuh.edu.fit.controller;
  *
  * @author Admin
  */
-public class NewClass {
-  
-}
+public class NewClass {}

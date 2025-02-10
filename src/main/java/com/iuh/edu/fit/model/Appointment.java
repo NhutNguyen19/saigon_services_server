@@ -1,9 +1,10 @@
 package com.iuh.edu.fit.model;
 
-import jakarta.persistence.*;
-import lombok.*;
-
 import java.time.LocalDateTime;
+
+import jakarta.persistence.*;
+
+import lombok.*;
 
 @Entity
 @Table(name = "appointments")

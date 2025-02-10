@@ -1,6 +1,7 @@
 package com.iuh.edu.fit.model;
 
 import jakarta.persistence.*;
+
 import lombok.*;
 
 @Entity
