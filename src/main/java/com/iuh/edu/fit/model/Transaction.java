@@ -26,8 +26,4 @@ public class Transaction {
     @ManyToOne
     @JoinColumn(name = "service_id")
     private Service service;
-
-    @ManyToOne
-    @JoinColumn(name = "business_owner_id")
-    private BusinessOwner businessOwner;
 }

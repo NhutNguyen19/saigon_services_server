@@ -1,6 +1,5 @@
 package com.iuh.edu.fit.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -29,14 +28,21 @@ public class Service {
     private Location location;
 
     @ManyToOne
-    @JoinColumn(name = "business_owner_id")
-    private BusinessOwner businessOwner;
+    @JoinColumn(name = "user_id") // Chủ sở hữu của dịch vụ chính là User
+    private User user;
 
     @OneToMany(mappedBy = "service", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
     private List<Review> reviews;
 
     @OneToMany(mappedBy = "service", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
+    private List<Favorite> favorites;
+
+    @OneToMany(mappedBy = "service", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Appointment> appointments;
+
+    @OneToMany(mappedBy = "service", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Transaction> transactions;
+
+    @OneToMany(mappedBy = "service", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> images;
 }
