@@ -40,9 +40,7 @@ public class User {
     private List<Transaction> transactions;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-<<<<<<< HEAD
-    private List<Service> services;
-=======
-    private List<Services> services; // Người dùng có thể là chủ của nhiều dịch vụ
->>>>>>> 1bba9e88179fe8dcf6ebd8313c0c2916f86879b5
+    private List<Services> services;
+   
+
 }

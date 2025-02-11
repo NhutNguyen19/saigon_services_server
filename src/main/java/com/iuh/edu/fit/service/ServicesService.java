@@ -1,6 +1,7 @@
 package com.iuh.edu.fit.service;
 
-import com.iuh.edu.fit.dto.ServicesDTO;
+import com.iuh.edu.fit.dto.request.ServicesRequest;
+import com.iuh.edu.fit.dto.response.ServicesResponse;
 import com.iuh.edu.fit.mapper.ServicesMapper;
 import com.iuh.edu.fit.model.Category;
 import com.iuh.edu.fit.model.Location;
@@ -14,8 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,62 +36,47 @@ public class ServicesService implements ServicesServiceImpl {
     private ServicesMapper servicesMapper;
 
     @Override
-    public ServicesDTO addService(ServicesDTO serviceDTO) {
-        Services service = servicesMapper.toEntity(serviceDTO);
+    public ServicesResponse addService(ServicesRequest request) {
+        Category category = categoryRepository.findById(request.getCategoryId())
+                .orElseThrow(() -> new RuntimeException("Category not found"));
 
-        // ✅ Kiểm tra và lấy Category từ database
-        if (serviceDTO.getCategoryId() != null) {
-            Optional<Category> category = categoryRepository.findById(serviceDTO.getCategoryId());
-            category.ifPresent(service::setCategory);
-        }
+        Location location = locationRepository.findById(request.getLocationId())
+                .orElseThrow(() -> new RuntimeException("Location not found"));
 
-        // ✅ Kiểm tra và lấy Location từ database
-        if (serviceDTO.getLocationId() != null) {
-            Optional<Location> location = locationRepository.findById(serviceDTO.getLocationId());
-            location.ifPresent(service::setLocation);
-        }
+        User user = userRepository.findById(request.getUserId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
-        // ✅ Kiểm tra và lấy User từ database
-        if (serviceDTO.getUserId() != null) {
-            Optional<User> user = userRepository.findById(serviceDTO.getUserId());
-            user.ifPresent(service::setUser);
-        }
-
-        // ✅ Tạo ID nếu chưa có
-        if (service.getId() == null || service.getId().trim().isEmpty()) {
-            service.setId(UUID.randomUUID().toString());
-        }
-
+        Services service = servicesMapper.toEntity(request, category, location, user);
         Services savedService = servicesRepository.save(service);
-        return servicesMapper.toDTO(savedService);
+        return servicesMapper.toResponse(savedService);
     }
 
     @Override
-    public List<ServicesDTO> getAllServices() {
+    public List<ServicesResponse> getAllServices() {
         return servicesRepository.findAll()
                 .stream()
-                .map(servicesMapper::toDTO)
+                .map(servicesMapper::toResponse)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public ServicesDTO getServiceById(String serviceId) {
+    public ServicesResponse getServiceById(String serviceId) {
         Services service = servicesRepository.findById(serviceId)
                 .orElseThrow(() -> new RuntimeException("Service not found with id: " + serviceId));
-        return servicesMapper.toDTO(service);
+        return servicesMapper.toResponse(service);
     }
 
     @Override
-    public ServicesDTO updateService(String serviceId, ServicesDTO serviceDTO) {
+    public ServicesResponse updateService(String serviceId, ServicesRequest request) {
         Services existingService = servicesRepository.findById(serviceId)
                 .orElseThrow(() -> new RuntimeException("Service not found with id: " + serviceId));
 
-        existingService.setServiceName(serviceDTO.getServiceName());
-        existingService.setDescription(serviceDTO.getDescription());
-        existingService.setPrice(serviceDTO.getPrice());
+        existingService.setServiceName(request.getServiceName());
+        existingService.setDescription(request.getDescription());
+        existingService.setPrice(request.getPrice());
 
         Services updatedService = servicesRepository.save(existingService);
-        return servicesMapper.toDTO(updatedService);
+        return servicesMapper.toResponse(updatedService);
     }
 
     @Override

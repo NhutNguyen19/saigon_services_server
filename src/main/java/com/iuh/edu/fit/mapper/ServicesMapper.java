@@ -1,37 +1,44 @@
 package com.iuh.edu.fit.mapper;
 
-import com.iuh.edu.fit.dto.ServicesDTO;
+import com.iuh.edu.fit.dto.request.ServicesRequest;
+import com.iuh.edu.fit.dto.response.ServicesResponse;
+import com.iuh.edu.fit.model.Category;
+import com.iuh.edu.fit.model.Location;
 import com.iuh.edu.fit.model.Services;
+import com.iuh.edu.fit.model.User;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ServicesMapper {
-    public Services toEntity(ServicesDTO dto) {
+
+    public Services toEntity(ServicesRequest dto, Category category, Location location, User user) {
         Services service = new Services();
-        service.setId(dto.getId());
         service.setServiceName(dto.getServiceName());
         service.setDescription(dto.getDescription());
         service.setPrice(dto.getPrice());
+        service.setCategory(category);
+        service.setLocation(location);
+        service.setUser(user);
         return service;
     }
 
-    public ServicesDTO toDTO(Services service) {
-        ServicesDTO dto = new ServicesDTO();
-        dto.setId(service.getId());
-        dto.setServiceName(service.getServiceName());
-        dto.setDescription(service.getDescription());
-        dto.setPrice(service.getPrice());
+    
+    public ServicesResponse toResponse(Services service) {
+        ServicesResponse response = new ServicesResponse();
+        response.setId(service.getId());
+        response.setServiceName(service.getServiceName());
+        response.setDescription(service.getDescription());
+        response.setPrice(service.getPrice());
 
-        // ✅ Đảm bảo không bị `null`
         if (service.getCategory() != null) {
-            dto.setCategoryId(service.getCategory().getId());
+            response.setCategoryId(service.getCategory().getId());
         }
         if (service.getLocation() != null) {
-            dto.setLocationId(service.getLocation().getId());
+            response.setLocationId(service.getLocation().getId());
         }
         if (service.getUser() != null) {
-            dto.setUserId(service.getUser().getId());
+            response.setUserId(service.getUser().getId());
         }
-        return dto;
+        return response;
     }
 }

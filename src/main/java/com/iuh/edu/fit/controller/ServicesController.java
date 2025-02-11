@@ -1,6 +1,7 @@
 package com.iuh.edu.fit.controller;
 
-import com.iuh.edu.fit.dto.ServicesDTO;
+import com.iuh.edu.fit.dto.request.ServicesRequest;
+import com.iuh.edu.fit.dto.response.ServicesResponse;
 import com.iuh.edu.fit.service.ServicesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,23 +17,23 @@ public class ServicesController {
     private ServicesService serviceService;
 
     @PostMapping
-    public ResponseEntity<ServicesDTO> addService(@RequestBody ServicesDTO serviceDTO) {
-        return ResponseEntity.ok(serviceService.addService(serviceDTO));
+    public ResponseEntity<ServicesResponse> addService(@RequestBody ServicesRequest request) {
+        return ResponseEntity.ok(serviceService.addService(request));
     }
 
     @GetMapping
-    public ResponseEntity<List<ServicesDTO>> getAllServices() {
+    public ResponseEntity<List<ServicesResponse>> getAllServices() {
         return ResponseEntity.ok(serviceService.getAllServices());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ServicesDTO> getServiceById(@PathVariable String id) {
+    public ResponseEntity<ServicesResponse> getServiceById(@PathVariable String id) {
         return ResponseEntity.ok(serviceService.getServiceById(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ServicesDTO> updateService(@PathVariable String id, @RequestBody ServicesDTO serviceDTO) {
-        return ResponseEntity.ok(serviceService.updateService(id, serviceDTO));
+    public ResponseEntity<ServicesResponse> updateService(@PathVariable String id, @RequestBody ServicesRequest request) {
+        return ResponseEntity.ok(serviceService.updateService(id, request));
     }
 
     @DeleteMapping("/{id}")
