@@ -22,5 +22,5 @@ public class Location {
     private String houseNumber;
 
     @OneToMany(mappedBy = "location", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Service> services;
+    private List<Services> services;
 }
