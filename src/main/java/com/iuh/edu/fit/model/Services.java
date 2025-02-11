@@ -1,10 +1,10 @@
 package com.iuh.edu.fit.model;
 
-import java.util.List;
-
 import jakarta.persistence.*;
-
 import lombok.*;
+import java.util.List;
+import java.util.UUID;
+import com.fasterxml.jackson.annotation.JsonBackReference; // ✅ Import Jackson
 
 @Entity
 @Table(name = "services")
@@ -12,7 +12,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Service {
+public class Services {
     @Id
     private String id;
 
@@ -22,6 +22,7 @@ public class Service {
 
     @ManyToOne
     @JoinColumn(name = "category_id")
+    @JsonBackReference //  Tránh lỗi vòng lặp khi serialize JSON
     private Category category;
 
     @ManyToOne
@@ -29,7 +30,7 @@ public class Service {
     private Location location;
 
     @ManyToOne
-    @JoinColumn(name = "user_id") // Chủ sở hữu của dịch vụ chính là User
+    @JoinColumn(name = "user_id")
     private User user;
 
     @OneToMany(mappedBy = "service", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -46,4 +47,12 @@ public class Service {
 
     @OneToMany(mappedBy = "service", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> images;
+
+    //  Hàm tự động tạo ID nếu nó bị null
+    @PrePersist
+    public void generateId() {
+        if (this.id == null || this.id.trim().isEmpty()) {
+            this.id = UUID.randomUUID().toString(); // Tạo ID mới nếu chưa có
+        }
+    }
 }

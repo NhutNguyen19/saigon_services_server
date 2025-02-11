@@ -1,9 +1,9 @@
 package com.iuh.edu.fit.model;
 
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonManagedReference; // ✅ Import Jackson
 
 import jakarta.persistence.*;
-
 import lombok.*;
 
 @Entity
@@ -20,5 +20,6 @@ public class Category {
     private String description;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Service> services;
+    @JsonManagedReference // ✅ Tránh lỗi vòng lặp khi serialize JSON
+    private List<Services> services;
 }

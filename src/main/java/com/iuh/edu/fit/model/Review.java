@@ -23,5 +23,5 @@ public class Review {
 
     @ManyToOne
     @JoinColumn(name = "service_id")
-    private Service service;
+    private Services service;
 }
