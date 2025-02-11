@@ -1,6 +1,7 @@
 package com.iuh.edu.fit.model;
 
 import java.util.List;
+import java.util.Set;
 
 import jakarta.persistence.*;
 
@@ -19,9 +20,6 @@ public class Role {
     private String roleName;
     private String description;
 
-    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<User> users;
-
-    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<RolePermission> rolePermissions;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<RolePermission> rolePermissions;
 }

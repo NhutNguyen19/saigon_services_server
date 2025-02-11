@@ -18,7 +18,4 @@ public class Permission {
 
     private String permissionName;
     private String description;
-
-    @OneToMany(mappedBy = "permission", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<RolePermission> rolePermissions;
 }

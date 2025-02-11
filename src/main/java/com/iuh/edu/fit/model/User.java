@@ -1,6 +1,7 @@
 package com.iuh.edu.fit.model;
 
 import java.util.List;
+import java.util.Set;
 
 import jakarta.persistence.*;
 
@@ -14,16 +15,17 @@ import lombok.*;
 @AllArgsConstructor
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-
     private String username;
+    private String firstName;
+    private String lastName;
     private String email;
     private String password;
     private String phoneNumber;
 
-    @ManyToOne
-    @JoinColumn(name = "role_id")
-    private Role role;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Role> roles;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews;
@@ -38,5 +40,5 @@ public class User {
     private List<Transaction> transactions;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Service> services; // Người dùng có thể là chủ của nhiều dịch vụ
+    private List<Service> services;
 }

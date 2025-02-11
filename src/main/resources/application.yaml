@@ -5,20 +5,15 @@ server:
 
 spring:
   datasource:
-    driver-class-name: org.mariadb.jdbc.Driver  # Sử dụng driver MariaDB
-    url: jdbc:mariadb://localhost:3306/saigon_services_data  # Thay MySQL thành MariaDB
-    username: root
-    password: tieudu123
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgres://localhost:5432/saigon_services_data
+    username: postgres
+    password: 913020
   jpa:
     hibernate:
       ddl-auto: create
     show-sql: true
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MariaDBDialect  # Dùng dialect của MariaDB
+        dialect: org.hibernate.dialect.PostgreSQLDialect  # Dùng dialect của MariaDB
     open-in-view: false
-
-jwt:
-  signerKey: "1TjXchw5FloESb63Kc+DFhTARvpWL4jUGCwfGWxuG5SIf/1y/LgJxHnMqaF6A/ij"
-  valid-duration: 3600
-  refreshable-duration: 36000
