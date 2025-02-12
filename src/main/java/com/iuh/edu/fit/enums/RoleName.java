@@ -1,7 +1,9 @@
 package com.iuh.edu.fit.enums;
 
-public enum Role {
+public enum RoleName {
     ADMIN,
     CO_ADMIN,
-    BUSSINESS
+    BUSINESS_OWNER,
+    CO_BUSINESS_OWNER,
+    USER,
 }

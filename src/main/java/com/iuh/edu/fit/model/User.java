@@ -13,6 +13,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -22,7 +23,7 @@ public class User {
     private String lastName;
     private String email;
     private String password;
-    private String phoneNumber;
+    private String phone;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
@@ -40,9 +41,5 @@ public class User {
     private List<Transaction> transactions;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-<<<<<<< HEAD
-    private List<Service> services;
-=======
-    private List<Services> services; // Người dùng có thể là chủ của nhiều dịch vụ
->>>>>>> 1bba9e88179fe8dcf6ebd8313c0c2916f86879b5
+    private List<Services> services;
 }

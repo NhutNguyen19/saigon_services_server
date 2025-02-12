@@ -1,4 +1,4 @@
-package com.iuh.edu.fit.dto.response;
+package com.iuh.edu.fit.dto.request;
 
 import com.iuh.edu.fit.model.*;
 import lombok.*;
@@ -12,18 +12,10 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserResponse {
-    String id;
+public class UserUpdateRequest {
     String username;
     String firstName;
     String lastName;
     String email;
-    String password;
     String phone;
-    List<Role> roles;
-    List<Review> reviews;
-    List<Favorite> favorites;
-    List<Appointment> appointments;
-    List<Transaction> transactions;
-    List<Services> services;
 }

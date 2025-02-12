@@ -11,8 +11,9 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Permission {
     @Id
-    private String permissionName;
+    private String name;
     private String description;
 }
