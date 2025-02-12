@@ -3,7 +3,7 @@ package com.iuh.edu.fit.model;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.List;
-import com.fasterxml.jackson.annotation.JsonBackReference; // ✅ Import Jackson
+
 
 @Entity
 @Getter
@@ -21,7 +21,6 @@ public class Services {
 
     @ManyToOne
     @JoinColumn(name = "category_id")
-    @JsonBackReference //  Tránh lỗi vòng lặp khi serialize JSON
     private Category category;
 
     @ManyToOne

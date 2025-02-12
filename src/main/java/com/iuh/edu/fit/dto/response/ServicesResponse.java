@@ -1,21 +1,24 @@
 package com.iuh.edu.fit.dto.response;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
+@Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ServicesResponse {
-    private String id;
-    private String serviceName;
-    private String description;
-    private double price;
-    private String categoryId;
-    private String locationId;
-    private String userId;
+     String id;
+     String serviceName;
+     String description;
+     double price;
+     String categoryId;
+    String locationId;
+     String userId;
 }
