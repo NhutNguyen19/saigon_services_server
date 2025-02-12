@@ -14,6 +14,7 @@ import com.iuh.edu.fit.repository.LocationRepository;
 import com.iuh.edu.fit.repository.ServicesRepository;
 import com.iuh.edu.fit.repository.UserRepository;
 import com.iuh.edu.fit.service.ServicesService;
+import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -40,7 +41,6 @@ public class ServicesServicelmpl implements ServicesService {
         if (servicesRepository.existsByServiceName(request.getServiceName())) {
             throw new AppException(ErrorCode.SERVICE_EXISTED);
         }
-
         Category category = categoryRepository.findById(request.getCategoryId())
                 .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
 
@@ -51,10 +51,10 @@ public class ServicesServicelmpl implements ServicesService {
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
 
         Services service = servicesMapper.toService(request);
+        
         service.setCategory(category);
         service.setLocation(location);
         service.setUser(user);
-
         servicesRepository.save(service);
         return servicesMapper.toServiceResponse(service);
     }
