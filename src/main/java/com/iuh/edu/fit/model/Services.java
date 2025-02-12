@@ -7,13 +7,13 @@ import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonBackReference; // ✅ Import Jackson
 
 @Entity
-@Table(name = "services")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Services {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
     private String serviceName;

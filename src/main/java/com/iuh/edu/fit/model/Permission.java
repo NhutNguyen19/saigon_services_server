@@ -7,15 +7,12 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "permissions")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Permission {
     @Id
-    private String id;
-
     private String permissionName;
     private String description;
 }

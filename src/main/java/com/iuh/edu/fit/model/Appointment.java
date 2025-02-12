@@ -7,13 +7,13 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "appointments")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Appointment {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
     private LocalDateTime appointmentDate;

@@ -7,13 +7,13 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "transactions")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Transaction {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
     private double amount;

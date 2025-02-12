@@ -7,13 +7,13 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "locations")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Location {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
     private String district;

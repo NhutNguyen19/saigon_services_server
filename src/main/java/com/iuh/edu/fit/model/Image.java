@@ -5,13 +5,13 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "images")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Image {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
     private String imageUrl;
