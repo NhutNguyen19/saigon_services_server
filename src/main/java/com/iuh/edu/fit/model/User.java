@@ -8,11 +8,11 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
+@Table(name = "users")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -40,5 +40,9 @@ public class User {
     private List<Transaction> transactions;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Services> services;
+<<<<<<< HEAD
+    private List<Service> services;
+=======
+    private List<Services> services; // Người dùng có thể là chủ của nhiều dịch vụ
+>>>>>>> 1bba9e88179fe8dcf6ebd8313c0c2916f86879b5
 }

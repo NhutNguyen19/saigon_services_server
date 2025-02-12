@@ -3,7 +3,6 @@ package com.iuh.edu.fit.model;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.List;
-import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonBackReference; // ✅ Import Jackson
 
 @Entity
@@ -48,11 +47,6 @@ public class Services {
     @OneToMany(mappedBy = "service", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> images;
 
-    //  Hàm tự động tạo ID nếu nó bị null
-    @PrePersist
-    public void generateId() {
-        if (this.id == null || this.id.trim().isEmpty()) {
-            this.id = UUID.randomUUID().toString(); // Tạo ID mới nếu chưa có
-        }
-    }
+
+   
 }
