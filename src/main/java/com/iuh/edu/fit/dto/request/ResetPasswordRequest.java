@@ -11,5 +11,5 @@ import lombok.experimental.FieldDefaults;
 public class ResetPasswordRequest {
     String username;
     String password;
-    String phoneNumber;
+    String phone;
 }

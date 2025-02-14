@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.annotation.Version;
 
 @Entity
 @Getter
@@ -19,6 +20,7 @@ import lombok.experimental.FieldDefaults;
 public class InvalidatedToken {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+            @Version
     String id;
 
     Date expiryDate;

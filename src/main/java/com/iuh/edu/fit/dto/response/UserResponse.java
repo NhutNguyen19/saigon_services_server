@@ -1,11 +1,11 @@
 package com.iuh.edu.fit.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.iuh.edu.fit.model.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.util.List;
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -18,6 +18,7 @@ public class UserResponse {
     String firstName;
     String lastName;
     String email;
+    @JsonIgnore
     String password;
     String phone;
     List<Role> roles;

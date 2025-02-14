@@ -9,10 +9,10 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -27,6 +27,22 @@ public class UserController {
         return ApiResponse.<UserResponse>builder()
                 .data(userService.createUser(request))
                 .message("Register successfully")
+                .build();
+    }
+
+    @GetMapping("/info")
+    ApiResponse<UserResponse> myInfo(){
+        return ApiResponse.<UserResponse>builder()
+                .data(userService.getMyInfo())
+                .message("My Info")
+                .build();
+    }
+
+    @GetMapping
+    ApiResponse<List<UserResponse>> getAllUsers(){
+        return ApiResponse.<List<UserResponse>>builder()
+                .data(userService.getAllUsers())
+                .message("Get all user")
                 .build();
     }
 }

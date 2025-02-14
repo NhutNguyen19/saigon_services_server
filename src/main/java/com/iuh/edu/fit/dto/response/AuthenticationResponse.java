@@ -11,7 +11,6 @@ import java.util.Date;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AuthenticationResponse {
-    String accessToken;
-    String refreshToken;
+    String token;
     Date expiryTime;
 }

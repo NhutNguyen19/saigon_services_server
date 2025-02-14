@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
-public class ServicesServicelmpl implements ServicesService {
+public class ServicesServiceImpl implements ServicesService {
 
     ServicesRepository servicesRepository;
     CategoryRepository categoryRepository;

@@ -4,7 +4,6 @@ import com.iuh.edu.fit.dto.request.ServicesRequest;
 import com.iuh.edu.fit.dto.response.ServicesResponse;
 import com.iuh.edu.fit.model.Services;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
@@ -24,6 +23,5 @@ public interface ServicesMapper {
     @Mapping(target = "userId", source = "user.id")
     ServicesResponse toServiceResponse(Services service);
 
-    
     void updateService(@MappingTarget Services service, ServicesRequest request);
 }
