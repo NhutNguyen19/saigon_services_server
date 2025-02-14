@@ -2,14 +2,15 @@ package com.iuh.edu.fit.service;
 
 import com.iuh.edu.fit.dto.request.UserCreationRequest;
 import com.iuh.edu.fit.dto.request.UserUpdateRequest;
+import com.iuh.edu.fit.dto.response.UserGetResponse;
 import com.iuh.edu.fit.dto.response.UserResponse;
 
 import java.util.List;
 
 public interface UserService {
-    UserResponse createUser(UserCreationRequest request);
+    UserGetResponse createUser(UserCreationRequest request);
 
-    List<UserResponse> getAllUsers();
+    List<UserGetResponse> getAllUsers();
 
     UserResponse getUserById(String id);
 

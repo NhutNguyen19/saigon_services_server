@@ -3,6 +3,7 @@ package com.iuh.edu.fit.service.implement;
 import com.iuh.edu.fit.constant.PredefinedRole;
 import com.iuh.edu.fit.dto.request.UserCreationRequest;
 import com.iuh.edu.fit.dto.request.UserUpdateRequest;
+import com.iuh.edu.fit.dto.response.UserGetResponse;
 import com.iuh.edu.fit.dto.response.UserResponse;
 import com.iuh.edu.fit.exception.AppException;
 import com.iuh.edu.fit.exception.ErrorCode;
@@ -36,7 +37,7 @@ public class UserServiceImpl implements UserService {
     PasswordEncoder passwordEncoder;
 
     @Override
-    public UserResponse createUser(UserCreationRequest request) {
+    public UserGetResponse createUser(UserCreationRequest request) {
         if (userRepository.existsByUsername(request.getUsername())) throw new AppException(ErrorCode.USER_EXISTED);
         if (userRepository.existsByPhone(request.getPhone())) throw new AppException(ErrorCode.PHONE_USERNAME_EXISTED);
         User user = userMapper.toUser(request);
@@ -45,17 +46,17 @@ public class UserServiceImpl implements UserService {
         roleRepository.findById(PredefinedRole.USER_ROLE).ifPresent(roles::add);
         user.setRoles(roles);
         userRepository.save(user);
-        return userMapper.toUserResponse(user);
+        return userMapper.toUserGetResponse(user);
     }
 
     @Override
     @PreAuthorize("hasRole('ADMIN')")
-    public List<UserResponse> getAllUsers() {
+    public List<UserGetResponse> getAllUsers() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         log.info("Current user: {}", authentication.getName());
         log.info("Authorities: {}", authentication.getAuthorities());
 
-        return userRepository.findAll().stream().map(userMapper::toUserResponse).toList();
+        return userRepository.findAll().stream().map(userMapper::toUserGetResponse).toList();
     }
 
     @Override
