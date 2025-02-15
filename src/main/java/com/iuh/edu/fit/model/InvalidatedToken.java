@@ -1,4 +1,5 @@
 package com.iuh.edu.fit.model;
+
 import java.util.Date;
 
 import jakarta.persistence.Entity;
@@ -6,9 +7,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+import org.springframework.data.annotation.Version;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.springframework.data.annotation.Version;
 
 @Entity
 @Getter
@@ -20,7 +22,7 @@ import org.springframework.data.annotation.Version;
 public class InvalidatedToken {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-            @Version
+    @Version
     String id;
 
     Date expiryDate;

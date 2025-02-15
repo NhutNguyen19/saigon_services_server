@@ -1,9 +1,10 @@
 package com.iuh.edu.fit.model;
 
-import jakarta.persistence.*;
-import lombok.*;
 import java.util.List;
 
+import jakarta.persistence.*;
+
+import lombok.*;
 
 @Entity
 @Getter
@@ -45,7 +46,4 @@ public class Services {
 
     @OneToMany(mappedBy = "service", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> images;
-
-
-   
 }

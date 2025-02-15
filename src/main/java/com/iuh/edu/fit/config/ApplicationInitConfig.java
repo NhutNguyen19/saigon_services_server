@@ -1,5 +1,14 @@
 package com.iuh.edu.fit.config;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import com.iuh.edu.fit.constant.PredefinePermission;
 import com.iuh.edu.fit.constant.PredefinedRole;
 import com.iuh.edu.fit.model.Permission;
@@ -8,19 +17,12 @@ import com.iuh.edu.fit.model.User;
 import com.iuh.edu.fit.repository.PermissionRepository;
 import com.iuh.edu.fit.repository.RoleRepository;
 import com.iuh.edu.fit.repository.UserRepository;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.ApplicationRunner;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @Configuration
 @RequiredArgsConstructor
@@ -41,7 +43,8 @@ public class ApplicationInitConfig {
             prefix = "spring.datasource",
             name = "driver-class-name",
             havingValue = "org.postgresql.Driver")
-    ApplicationRunner applicationRunner(UserRepository userRepository, RoleRepository roleRepository, PermissionRepository permissionRepository) {
+    ApplicationRunner applicationRunner(
+            UserRepository userRepository, RoleRepository roleRepository, PermissionRepository permissionRepository) {
         log.info("Initializing application");
         return args -> {
             if (userRepository.findByUsername(ADMIN_NAME).isEmpty()) {

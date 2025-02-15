@@ -1,5 +1,14 @@
 package com.iuh.edu.fit.service.implement;
 
+import java.util.HashSet;
+import java.util.List;
+
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
 import com.iuh.edu.fit.constant.PredefinedRole;
 import com.iuh.edu.fit.dto.request.UserCreationRequest;
 import com.iuh.edu.fit.dto.request.UserUpdateRequest;
@@ -13,18 +22,11 @@ import com.iuh.edu.fit.model.User;
 import com.iuh.edu.fit.repository.RoleRepository;
 import com.iuh.edu.fit.repository.UserRepository;
 import com.iuh.edu.fit.service.UserService;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
-import java.util.HashSet;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -56,7 +58,9 @@ public class UserServiceImpl implements UserService {
         log.info("Current user: {}", authentication.getName());
         log.info("Authorities: {}", authentication.getAuthorities());
 
-        return userRepository.findAll().stream().map(userMapper::toUserGetResponse).toList();
+        return userRepository.findAll().stream()
+                .map(userMapper::toUserGetResponse)
+                .toList();
     }
 
     @Override
@@ -70,9 +74,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(String id) {
-
-    }
+    public void deleteUser(String id) {}
 
     @Override
     public UserResponse getMyInfo() {
@@ -84,10 +86,9 @@ public class UserServiceImpl implements UserService {
         }
 
         String username = authentication.getName();
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+        User user =
+                userRepository.findByUsername(username).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
         return userMapper.toUserResponse(user);
     }
-
 }

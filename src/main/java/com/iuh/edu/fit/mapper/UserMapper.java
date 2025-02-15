@@ -1,13 +1,14 @@
 package com.iuh.edu.fit.mapper;
 
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+
 import com.iuh.edu.fit.dto.request.UserCreationRequest;
 import com.iuh.edu.fit.dto.request.UserUpdateRequest;
 import com.iuh.edu.fit.dto.response.UserGetResponse;
 import com.iuh.edu.fit.dto.response.UserResponse;
 import com.iuh.edu.fit.model.User;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {

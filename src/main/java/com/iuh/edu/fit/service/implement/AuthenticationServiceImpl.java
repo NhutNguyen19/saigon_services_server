@@ -1,5 +1,18 @@
 package com.iuh.edu.fit.service.implement;
 
+import java.text.ParseException;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
+import java.util.StringJoiner;
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
 import com.iuh.edu.fit.dto.request.*;
 import com.iuh.edu.fit.dto.response.AuthenticationResponse;
 import com.iuh.edu.fit.dto.response.IntrospectResponse;
@@ -15,25 +28,12 @@ import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
-
-import java.text.ParseException;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.Date;
-import java.util.StringJoiner;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -72,7 +72,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         Instant now = Instant.now();
         Instant expiryDate = now.plus(VALID_DURATION, ChronoUnit.SECONDS);
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
-        var user = userRepository.findByUsername(request.getUsername())
+        var user = userRepository
+                .findByUsername(request.getUsername())
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
         boolean authenticated = passwordEncoder.matches(request.getPassword(), user.getPassword());
         if (!authenticated) throw new AppException(ErrorCode.UNAUTHORIZED);
@@ -105,8 +106,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         // Nếu token vẫn còn hạn thì mới thu hồi
         if (expiryTime.after(new Date())) {
-            InvalidatedToken invalidatedToken = InvalidatedToken.builder()
-                    .id(jit).expiryDate(expiryTime).build();
+            InvalidatedToken invalidatedToken =
+                    InvalidatedToken.builder().id(jit).expiryDate(expiryTime).build();
             invalidatedTokenRepository.save(invalidatedToken);
             log.info("Token {} has been invalidated", jit);
         } else {
@@ -116,8 +117,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         var username = signJWT.getJWTClaimsSet().getSubject();
         log.info("User name is: {}", username);
 
-        var user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new AppException(ErrorCode.UNAUTHORIZED));
+        var user = userRepository.findByUsername(username).orElseThrow(() -> new AppException(ErrorCode.UNAUTHORIZED));
 
         var newToken = generateToken(user);
         return AuthenticationResponse.builder()
@@ -126,13 +126,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .build();
     }
 
-
     @Override
     public String resetPassword(ResetPasswordRequest request) {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
-        System.out.println("Reset password request for phone: " + request.getPhone() + ", username: " + request.getUsername());
+        System.out.println(
+                "Reset password request for phone: " + request.getPhone() + ", username: " + request.getUsername());
 
-        User user = userRepository.findByPhoneAndUsername(request.getPhone(), request.getUsername())
+        User user = userRepository
+                .findByPhoneAndUsername(request.getPhone(), request.getUsername())
                 .orElseThrow(() -> new AppException(ErrorCode.PHONE_USERNAME_EXISTED));
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         userRepository.save(user);

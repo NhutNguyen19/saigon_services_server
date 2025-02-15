@@ -1,6 +1,5 @@
 package com.iuh.edu.fit.config;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
@@ -18,15 +17,15 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 @Slf4j
 public class SecurityConfig {
 
-    private static final String[] PUBLIC_ENDPOINTS = {
-        "/users/registration", "/auth/**","/services/**"
-    };
+    private static final String[] PUBLIC_ENDPOINTS = {"/users/registration", "/auth/**", "/services/**"};
 
     private final CustomJwtDecoder customJwtDecoder;
 

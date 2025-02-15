@@ -1,7 +1,5 @@
 package com.iuh.edu.fit.constant;
 
-import lombok.experimental.UtilityClass;
-
 public class PredefinePermission {
     public static final String READ_PRIVILEGES = "READ_PRIVILEGES";
     public static final String CREATE_PRIVILEGES = "CREATE_PRIVILEGES";

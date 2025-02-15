@@ -1,14 +1,14 @@
 server:
   servlet:
     context-path: /api
-  port: 8080
+  port: 8089
 
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/saigon_services_data
+    url: jdbc:postgresql://localhost:5432/saigon_service_data
     username: postgres
-    password: 913020
+    password: tieudu123
   jpa:
     show-sql: true
     hibernate:

@@ -1,18 +1,20 @@
 package com.iuh.edu.fit.controller;
 
+import java.util.List;
+
+import jakarta.validation.Valid;
+
+import org.springframework.web.bind.annotation.*;
+
 import com.iuh.edu.fit.dto.ApiResponse;
 import com.iuh.edu.fit.dto.request.ServicesRequest;
 import com.iuh.edu.fit.dto.response.ServicesResponse;
 import com.iuh.edu.fit.service.ServicesService;
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/services")
@@ -21,10 +23,10 @@ import lombok.experimental.FieldDefaults;
 @Slf4j
 public class ServicesController {
 
-     ServicesService serviceService;
+    ServicesService serviceService;
 
-    @PostMapping
-     ApiResponse<ServicesResponse> addService(@Valid @RequestBody ServicesRequest request) {
+    @PostMapping("/add")
+    ApiResponse<ServicesResponse> addService(@Valid @RequestBody ServicesRequest request) {
         log.info("Adding new service: {}", request);
         return ApiResponse.<ServicesResponse>builder()
                 .data(serviceService.addService(request))
@@ -32,8 +34,8 @@ public class ServicesController {
                 .build();
     }
 
-    @GetMapping
-     ApiResponse<List<ServicesResponse>> getAllServices() {
+    @GetMapping("/all")
+    ApiResponse<List<ServicesResponse>> getAllServices() {
         return ApiResponse.<List<ServicesResponse>>builder()
                 .data(serviceService.getAllServices())
                 .message("Fetched all services")
@@ -41,17 +43,24 @@ public class ServicesController {
     }
 
     @GetMapping("/{id}")
-   ApiResponse<ServicesResponse> getServiceById(@PathVariable String id) {
+    ApiResponse<ServicesResponse> getServiceById(@PathVariable String id) {
         return ApiResponse.<ServicesResponse>builder()
                 .data(serviceService.getServiceById(id))
                 .message("Fetched service by ID")
                 .build();
     }
 
+    @GetMapping("/name/{serviceName}")
+    ApiResponse<ServicesResponse> getServiceByName(@PathVariable String serviceName) {
+        log.info("Fetching service by name: {}", serviceName);
+        return ApiResponse.<ServicesResponse>builder()
+                .data(serviceService.getServiceByName(serviceName))
+                .message("Fetched service by name")
+                .build();
+    }
+
     @PutMapping("/{id}")
-    ApiResponse<ServicesResponse> updateService(
-            @PathVariable String id,
-            @Valid @RequestBody ServicesRequest request) {
+    ApiResponse<ServicesResponse> updateService(@PathVariable String id, @Valid @RequestBody ServicesRequest request) {
         return ApiResponse.<ServicesResponse>builder()
                 .data(serviceService.updateService(id, request))
                 .message("Service updated successfully")

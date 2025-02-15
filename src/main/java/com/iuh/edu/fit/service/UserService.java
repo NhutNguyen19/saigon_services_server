@@ -1,11 +1,11 @@
 package com.iuh.edu.fit.service;
 
+import java.util.List;
+
 import com.iuh.edu.fit.dto.request.UserCreationRequest;
 import com.iuh.edu.fit.dto.request.UserUpdateRequest;
 import com.iuh.edu.fit.dto.response.UserGetResponse;
 import com.iuh.edu.fit.dto.response.UserResponse;
-
-import java.util.List;
 
 public interface UserService {
     UserGetResponse createUser(UserCreationRequest request);

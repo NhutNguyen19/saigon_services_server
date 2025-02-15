@@ -1,7 +1,5 @@
 package com.iuh.edu.fit.model;
 
-import java.util.List;
-
 import jakarta.persistence.*;
 
 import lombok.*;
@@ -15,5 +13,6 @@ import lombok.*;
 public class Permission {
     @Id
     private String name;
+
     private String description;
 }

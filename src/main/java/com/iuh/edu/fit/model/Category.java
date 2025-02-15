@@ -1,9 +1,11 @@
 package com.iuh.edu.fit.model;
 
 import java.util.List;
-import com.fasterxml.jackson.annotation.JsonManagedReference; // ✅ Import Jackson
 
 import jakarta.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.*;
 
 @Entity

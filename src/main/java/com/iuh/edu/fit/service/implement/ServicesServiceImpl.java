@@ -1,5 +1,11 @@
 package com.iuh.edu.fit.service.implement;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Service;
+
 import com.iuh.edu.fit.dto.request.ServicesRequest;
 import com.iuh.edu.fit.dto.response.ServicesResponse;
 import com.iuh.edu.fit.exception.AppException;
@@ -14,15 +20,11 @@ import com.iuh.edu.fit.repository.LocationRepository;
 import com.iuh.edu.fit.repository.ServicesRepository;
 import com.iuh.edu.fit.repository.UserRepository;
 import com.iuh.edu.fit.service.ServicesService;
-import jakarta.transaction.Transactional;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -41,17 +43,20 @@ public class ServicesServiceImpl implements ServicesService {
         if (servicesRepository.existsByServiceName(request.getServiceName())) {
             throw new AppException(ErrorCode.SERVICE_EXISTED);
         }
-        Category category = categoryRepository.findById(request.getCategoryId())
+        Category category = categoryRepository
+                .findById(request.getCategoryId())
                 .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
 
-        Location location = locationRepository.findById(request.getLocationId())
+        Location location = locationRepository
+                .findById(request.getLocationId())
                 .orElseThrow(() -> new AppException(ErrorCode.LOCATION_NOT_FOUND));
 
-        User user = userRepository.findById(request.getUserId())
+        User user = userRepository
+                .findById(request.getUserId())
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
 
         Services service = servicesMapper.toService(request);
-        
+
         service.setCategory(category);
         service.setLocation(location);
         service.setUser(user);
@@ -60,6 +65,7 @@ public class ServicesServiceImpl implements ServicesService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public List<ServicesResponse> getAllServices() {
         return servicesRepository.findAll().stream()
                 .map(servicesMapper::toServiceResponse)
@@ -67,16 +73,27 @@ public class ServicesServiceImpl implements ServicesService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public ServicesResponse getServiceById(String serviceId) {
-        Services service = servicesRepository.findById(serviceId)
+        Services service =
+                servicesRepository.findById(serviceId).orElseThrow(() -> new AppException(ErrorCode.SERVICE_NOT_FOUND));
+        return servicesMapper.toServiceResponse(service);
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ADMIN')")
+    public ServicesResponse getServiceByName(String serviceName) {
+        Services service = servicesRepository
+                .findByServiceName(serviceName)
                 .orElseThrow(() -> new AppException(ErrorCode.SERVICE_NOT_FOUND));
         return servicesMapper.toServiceResponse(service);
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public ServicesResponse updateService(String serviceId, ServicesRequest request) {
-        Services existingService = servicesRepository.findById(serviceId)
-                .orElseThrow(() -> new AppException(ErrorCode.SERVICE_NOT_FOUND));
+        Services existingService =
+                servicesRepository.findById(serviceId).orElseThrow(() -> new AppException(ErrorCode.SERVICE_NOT_FOUND));
 
         servicesMapper.updateService(existingService, request);
         servicesRepository.save(existingService);
@@ -85,6 +102,7 @@ public class ServicesServiceImpl implements ServicesService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteService(String serviceId) {
         if (!servicesRepository.existsById(serviceId)) {
             throw new AppException(ErrorCode.SERVICE_NOT_FOUND);

@@ -2,6 +2,7 @@ package com.iuh.edu.fit.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
+
 import lombok.Getter;
 
 @Getter
@@ -21,7 +22,6 @@ public enum ErrorCode {
     SERVICE_NOT_FOUND(2002, "Service not found", HttpStatus.NOT_FOUND),
     CATEGORY_NOT_FOUND(3001, "Category not found", HttpStatus.NOT_FOUND),
     LOCATION_NOT_FOUND(4001, "Location not found", HttpStatus.NOT_FOUND);
-    
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
         this.code = code;
