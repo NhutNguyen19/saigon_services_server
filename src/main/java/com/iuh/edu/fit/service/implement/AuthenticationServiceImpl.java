@@ -129,11 +129,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public String resetPassword(ResetPasswordRequest request) {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
+<<<<<<< HEAD
         System.out.println(
                 "Reset password request for phone: " + request.getPhone() + ", username: " + request.getUsername());
 
         User user = userRepository
                 .findByPhoneAndUsername(request.getPhone(), request.getUsername())
+=======
+        System.out.println("Reset password request for phone: " + request.getPhone());
+
+        User user = userRepository.findByPhone(request.getPhone())
+>>>>>>> c32614ed0c08f525dbf3afec7fba5860d7523b42
                 .orElseThrow(() -> new AppException(ErrorCode.PHONE_USERNAME_EXISTED));
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         userRepository.save(user);

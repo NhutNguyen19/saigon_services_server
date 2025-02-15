@@ -18,5 +18,9 @@ public interface UserService {
 
     void deleteUser(String id);
 
+    void deleteMyAccount(String username);
+
+    UserResponse updateMyAccount(UserUpdateRequest request);
+
     UserResponse getMyInfo();
 }

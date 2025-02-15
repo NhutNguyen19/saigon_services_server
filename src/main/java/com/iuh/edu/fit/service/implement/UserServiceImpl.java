@@ -41,7 +41,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserGetResponse createUser(UserCreationRequest request) {
         if (userRepository.existsByUsername(request.getUsername())) throw new AppException(ErrorCode.USER_EXISTED);
-        if (userRepository.existsByPhone(request.getPhone())) throw new AppException(ErrorCode.PHONE_USERNAME_EXISTED);
         User user = userMapper.toUser(request);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         HashSet<Role> roles = new HashSet<>();
@@ -52,7 +51,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public List<UserGetResponse> getAllUsers() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         log.info("Current user: {}", authentication.getName());
@@ -64,17 +63,89 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public UserResponse getUserById(String id) {
-        return null;
+        return userMapper.toUserResponse(userRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)));
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public UserResponse updateUser(UserUpdateRequest request, String id) {
-        return null;
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
+        userMapper.updateUser(user, request);
+
+        if (request.getRoles() != null && !request.getRoles().isEmpty()) {
+            var roles = roleRepository.findAllById(request.getRoles());
+            if (roles.isEmpty()) {
+                throw new AppException(ErrorCode.UNAUTHORIZED);
+            }
+            user.setRoles(new HashSet<>(roles));
+        }
+        return userMapper.toUserResponse(userRepository.save(user));
     }
 
     @Override
+<<<<<<< HEAD
     public void deleteUser(String id) {}
+=======
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    public void deleteUser(String id) {
+        userRepository.deleteById(id);
+    }
+>>>>>>> c32614ed0c08f525dbf3afec7fba5860d7523b42
+
+    @Override
+    @PreAuthorize("hasAnyRole('ADMIN', 'CO_ADMIN','BUSINESS_OWNER', 'CO_BUSINESS_OWNER','USER')")
+    public void deleteMyAccount(String username) {
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new AppException(ErrorCode.UNAUTHORIZED);
+        }
+
+        var user_name = authentication.getName();
+        User user = userRepository.findByUsername(user_name)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
+        userRepository.delete(user);
+    }
+
+    @Override
+    @PreAuthorize("hasAnyRole('ADMIN', 'CO_ADMIN','BUSINESS_OWNER', 'CO_BUSINESS_OWNER','USER')")
+    public UserResponse updateMyAccount(UserUpdateRequest request) {
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new AppException(ErrorCode.UNAUTHORIZED);
+        }
+
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
+        if (request.getEmail() != null) {
+            user.setEmail(request.getEmail());
+        }
+        if (request.getFirstName() != null) {
+            user.setFirstName(request.getFirstName());
+        }
+        if (request.getLastName() != null) {
+            user.setLastName(request.getLastName());
+        }
+        if (request.getPhone() != null) {
+            user.setPhone(request.getPhone());
+        }
+        if (request.getEmail() != null) {
+            user.setEmail(request.getEmail());
+        }
+
+        userRepository.save(user);
+        return userMapper.toUserResponse(user);
+    }
+
 
     @Override
     public UserResponse getMyInfo() {
