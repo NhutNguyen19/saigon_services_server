@@ -22,6 +22,6 @@ public class Category {
     private String description;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference // ✅ Tránh lỗi vòng lặp khi serialize JSON
+    @JsonManagedReference
     private List<Services> services;
 }

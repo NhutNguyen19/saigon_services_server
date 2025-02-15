@@ -4,6 +4,7 @@ import java.util.List;
 
 import jakarta.validation.Valid;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import com.iuh.edu.fit.dto.ApiResponse;
@@ -17,13 +18,6 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-<<<<<<< HEAD
-=======
-import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
->>>>>>> c32614ed0c08f525dbf3afec7fba5860d7523b42
 
 @RestController
 @RequestMapping("/users")
@@ -58,7 +52,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}/user")
-    ApiResponse<UserResponse> getUserById(@PathVariable String id){
+    ApiResponse<UserResponse> getUserById(@PathVariable String id) {
         return ApiResponse.<UserResponse>builder()
                 .data(userService.getUserById(id))
                 .message("Id user :{}" + id)
@@ -66,8 +60,7 @@ public class UserController {
     }
 
     @PutMapping("/update/{id}")
-    ApiResponse<UserResponse> updateUser(
-            @RequestBody @Valid UserUpdateRequest request, @PathVariable String id) {
+    ApiResponse<UserResponse> updateUser(@RequestBody @Valid UserUpdateRequest request, @PathVariable String id) {
         return ApiResponse.<UserResponse>builder()
                 .data(userService.updateUser(request, id))
                 .message("Successfully updated user")
@@ -86,8 +79,6 @@ public class UserController {
     public ApiResponse<String> deleteMyAccount(Authentication authentication) {
         String username = authentication.getName();
         userService.deleteMyAccount(username);
-        return ApiResponse.<String>builder()
-                .message("Delete my account")
-                .build();
+        return ApiResponse.<String>builder().message("Delete my account").build();
     }
 }

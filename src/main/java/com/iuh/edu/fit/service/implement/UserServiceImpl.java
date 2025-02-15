@@ -65,15 +65,14 @@ public class UserServiceImpl implements UserService {
     @Override
     @PreAuthorize("hasRole('ADMIN')")
     public UserResponse getUserById(String id) {
-        return userMapper.toUserResponse(userRepository.findById(id)
-                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)));
+        return userMapper.toUserResponse(
+                userRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)));
     }
 
     @Override
     @PreAuthorize("hasRole('ADMIN')")
     public UserResponse updateUser(UserUpdateRequest request, String id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+        User user = userRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
         userMapper.updateUser(user, request);
 
@@ -88,14 +87,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-<<<<<<< HEAD
-    public void deleteUser(String id) {}
-=======
     @PreAuthorize("hasAnyRole('ADMIN')")
     public void deleteUser(String id) {
         userRepository.deleteById(id);
     }
->>>>>>> c32614ed0c08f525dbf3afec7fba5860d7523b42
 
     @Override
     @PreAuthorize("hasAnyRole('ADMIN', 'CO_ADMIN','BUSINESS_OWNER', 'CO_BUSINESS_OWNER','USER')")
@@ -107,7 +102,8 @@ public class UserServiceImpl implements UserService {
         }
 
         var user_name = authentication.getName();
-        User user = userRepository.findByUsername(user_name)
+        User user = userRepository
+                .findByUsername(user_name)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
         userRepository.delete(user);
@@ -123,8 +119,8 @@ public class UserServiceImpl implements UserService {
         }
 
         String username = authentication.getName();
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+        User user =
+                userRepository.findByUsername(username).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
         if (request.getEmail() != null) {
             user.setEmail(request.getEmail());
@@ -145,7 +141,6 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
         return userMapper.toUserResponse(user);
     }
-
 
     @Override
     public UserResponse getMyInfo() {

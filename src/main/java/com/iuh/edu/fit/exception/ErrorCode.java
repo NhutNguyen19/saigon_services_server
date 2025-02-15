@@ -21,6 +21,7 @@ public enum ErrorCode {
     SERVICE_EXISTED(2001, "Service already exists", HttpStatus.BAD_REQUEST),
     SERVICE_NOT_FOUND(2002, "Service not found", HttpStatus.NOT_FOUND),
     CATEGORY_NOT_FOUND(3001, "Category not found", HttpStatus.NOT_FOUND),
+    CATEGORY_EXISTED(3002, "CATEGORY_EXISTED", HttpStatus.BAD_REQUEST),
     LOCATION_NOT_FOUND(4001, "Location not found", HttpStatus.NOT_FOUND);
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {

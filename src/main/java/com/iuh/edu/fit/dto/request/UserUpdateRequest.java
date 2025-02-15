@@ -1,11 +1,11 @@
 package com.iuh.edu.fit.dto.request;
 
-import com.iuh.edu.fit.model.*;
-<<<<<<< HEAD
+import java.util.List;
 
-=======
 import jakarta.validation.constraints.Size;
->>>>>>> c32614ed0c08f525dbf3afec7fba5860d7523b42
+
+import com.iuh.edu.fit.model.*;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -18,6 +18,7 @@ public class UserUpdateRequest {
 
     @Size(min = 6, message = "Nhập tài khoản có tối thiểu 6 ký tự")
     String username;
+
     String firstName;
     String lastName;
     String email;
