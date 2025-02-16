@@ -22,7 +22,10 @@ public enum ErrorCode {
     SERVICE_NOT_FOUND(2002, "Service not found", HttpStatus.NOT_FOUND),
     CATEGORY_NOT_FOUND(3001, "Category not found", HttpStatus.NOT_FOUND),
     CATEGORY_EXISTED(3002, "CATEGORY_EXISTED", HttpStatus.BAD_REQUEST),
-    LOCATION_NOT_FOUND(4001, "Location not found", HttpStatus.NOT_FOUND);
+    LOCATION_NOT_FOUND(4001, "Location not found", HttpStatus.NOT_FOUND),
+    REVIEW_EXISTED(5001, "Review already exists", HttpStatus.BAD_REQUEST),
+    REVIEW_NOT_FOUND(5002, "Review not found", HttpStatus.NOT_FOUND),
+    INVALID_REVIEW_CONTENT(5003, "Invalid review content", HttpStatus.BAD_REQUEST);
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
         this.code = code;
