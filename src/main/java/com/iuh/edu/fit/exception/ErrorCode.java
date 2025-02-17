@@ -25,7 +25,8 @@ public enum ErrorCode {
     LOCATION_NOT_FOUND(4001, "Location not found", HttpStatus.NOT_FOUND),
     REVIEW_EXISTED(5001, "Review already exists", HttpStatus.BAD_REQUEST),
     REVIEW_NOT_FOUND(5002, "Review not found", HttpStatus.NOT_FOUND),
-    INVALID_REVIEW_CONTENT(5003, "Invalid review content", HttpStatus.BAD_REQUEST);
+    INVALID_REVIEW_CONTENT(5003, "Invalid review content", HttpStatus.BAD_REQUEST),
+    IMAGE_NOT_FOUND(6001, "Image not found", HttpStatus.NOT_FOUND);
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
         this.code = code;
