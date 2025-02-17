@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 public class SecurityConfig {
 
     private static final String[] PUBLIC_ENDPOINTS = {
-        "/users/registration", "/auth/**", "/services/**", "/category/**", "/reviews/**", "/images/**"
+        "/users/registration", "/auth/**", "/services/**", "/category/**", "/reviews/**", "/images/**", "/favorites/**",
     };
 
     private final CustomJwtDecoder customJwtDecoder;

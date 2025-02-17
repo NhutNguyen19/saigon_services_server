@@ -26,7 +26,9 @@ public enum ErrorCode {
     REVIEW_EXISTED(5001, "Review already exists", HttpStatus.BAD_REQUEST),
     REVIEW_NOT_FOUND(5002, "Review not found", HttpStatus.NOT_FOUND),
     INVALID_REVIEW_CONTENT(5003, "Invalid review content", HttpStatus.BAD_REQUEST),
-    IMAGE_NOT_FOUND(6001, "Image not found", HttpStatus.NOT_FOUND);
+    IMAGE_NOT_FOUND(6001, "Image not found", HttpStatus.NOT_FOUND),
+    FAVORITE_EXISTED(7001, "Favorite already exists", HttpStatus.BAD_REQUEST),
+    FAVORITE_NOT_FOUND(7002, "Favorite not found", HttpStatus.NOT_FOUND);
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
         this.code = code;

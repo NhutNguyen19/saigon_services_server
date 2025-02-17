@@ -56,29 +56,25 @@ public class ImageServiceImpl implements ImageService {
         String uploadDir = "C:\\Users\\Admin\\AppData\\Local\\Temp\\images";
         File directory = new File(uploadDir);
 
-
         if (!directory.exists()) {
             directory.mkdirs();
         }
 
-        
         String fileName = serviceId + "_" + UUID.randomUUID() + "_" + file.getOriginalFilename();
         String filePath = uploadDir + File.separator + fileName;
 
         try {
-           
+
             file.transferTo(new File(filePath));
         } catch (IOException e) {
             throw new AppException(ErrorCode.UNCATEGORIZED_EXCEPTION);
         }
 
-        
         Image image = new Image();
         image.setImageUrl(filePath);
         image.setService(service);
         imageRepository.save(image);
 
-        
         return imageMapper.toImageResponse(image);
     }
 
